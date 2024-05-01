@@ -86,7 +86,7 @@ def run_unity():
     username = commandLineArguments["Unity_Username"]
     unityBuildMethod = "BuilderScript.Editor.Builder.BuildWebGl"
     unityLaunchArguments = [
-        "xvfb-run",
+        "xvfb-run", "--auto-servernum", "--server-args=\'-screen 0 640x480x24\'",
         unityPath,
         "-batchmode", 
         "-nographics", 
@@ -99,6 +99,7 @@ def run_unity():
         "-projectPath", get_project_folder_path(),
         "-buildFolderPath", path.abspath(buildFolderName)
     ]
+    print(f"Unity launch command: {unityLaunchArguments}")
     process = subprocess.Popen(unityLaunchArguments)
     write_logs_from_file(process)
 
