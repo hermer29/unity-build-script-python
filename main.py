@@ -88,8 +88,9 @@ def run_unity():
     unityLaunchArguments = [
         "xvfb-run", "--auto-servernum", "--server-args=\'-screen 0 640x480x24\'",
         unityPath,
-        "-batchmode", 
+       # "-batchmode", 
         "-nographics", 
+        "-force-free",
         "-buildtarget", "webgl",
         "-username", username,
         "-password", password,
@@ -97,7 +98,7 @@ def run_unity():
         "-executeMethod", unityBuildMethod,
         "-quit",
         "-projectPath", get_project_folder_path(),
-        "-buildFolderPath", path.abspath(buildFolderName)
+        "-buildFolderPath", path.abspath(buildFolderName),
     ]
     print(f"Unity launch command: {unityLaunchArguments}")
     process = subprocess.Popen(unityLaunchArguments)
