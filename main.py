@@ -88,7 +88,7 @@ def run_unity():
     unityLaunchArguments = [
         "xvfb-run", "--auto-servernum", "--server-args=\'-screen 0 640x480x24\'",
         unityPath,
-       "-batchmode", 
+       #"-batchmode", 
         #"-nographics", 
         "-force-free",
         "-buildtarget", "webgl",
