@@ -86,10 +86,10 @@ def run_unity():
     username = commandLineArguments["Unity_Username"]
     unityBuildMethod = "BuilderScript.Editor.Builder.BuildWebGl"
     unityLaunchArguments = [
-        "xvfb-run", "--auto-servernum", "--server-args=\'-screen 0 640x480x24\'",
+        #"xvfb-run", "--auto-servernum", "--server-args=\'-screen 0 640x480x24\'",
         unityPath,
-       #"-batchmode", 
-        #"-nographics", 
+       "-batchmode", 
+        "-nographics", 
         "-force-free",
         "-buildtarget", "webgl",
         "-username", username,
