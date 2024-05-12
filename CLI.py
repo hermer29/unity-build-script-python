@@ -5,7 +5,7 @@ class CLI:
     commandLineArguments = {}
 
     def __init__(self):
-        sliceObj = slice(1, len(sys.argv))
+        sliceObj = slice(1, len(argv))
         sliced = argv[sliceObj]
         for arg in sliced:
             keyValue = arg.split('=')
