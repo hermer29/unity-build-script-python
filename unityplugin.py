@@ -1,5 +1,6 @@
 import io
-from os import path, listdir
+from os import listdir
+import os
 from subprocess import Popen
 
 def is_unity_project_folder(path : str) -> bool:
@@ -10,8 +11,8 @@ def find_unity_project_folder(path : str) -> str:
     if is_unity_project_folder(path):
         return path
     for filename in listdir(path):
-        filePath = path.join(path, filename)
-        if path.isfile(filePath):
+        filePath = os.path.join(path, filename)
+        if os.path.isfile(filePath):
             continue
         if is_unity_project_folder(filePath):
             return filePath
@@ -24,13 +25,13 @@ def find_unity_project_folder(path : str) -> str:
     return None
 
 def clear_logs_file_if_exists(logsPath : str):
-    if path.exists(logsPath):
+    if os.path.exists(logsPath):
         logs = io.open(logsPath, mode="w")
         logs.close()
 
 def write_logs_from_file(process : Popen, logsPath : str):
     clear_logs_file_if_exists()
-    while not path.exists(logsPath):
+    while not os.path.exists(logsPath):
         continue
     with io.open(logsPath, mode="+r") as logs:
         while process.returncode == None:
