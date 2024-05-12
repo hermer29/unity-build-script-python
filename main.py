@@ -80,7 +80,8 @@ def get_project_folder_path():
 def get_logs_file_path():
     return f"{artifactsFolderPath}/unity.log"
 
-def run_unity(): 
+def run_unity():
+    global buildFolderAbsolutePath 
     unityPath = commandLineArguments["Unity_Path"]
     password = commandLineArguments["Unity_Password"]
     username = commandLineArguments["Unity_Username"]
@@ -98,7 +99,7 @@ def run_unity():
         "-executeMethod", unityBuildMethod,
         "-quit",
         "-projectPath", get_project_folder_path(),
-        "-buildFolderPath", path.abspath(buildFolderName),
+        "-build-folder-path", buildFolderAbsolutePath,
     ]
     print(f"Unity launch command: {unityLaunchArguments}")
     process = subprocess.Popen(unityLaunchArguments)
