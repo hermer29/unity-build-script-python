@@ -62,4 +62,4 @@ def run_unity(buildFolderAbsolutePath: str, unityPath: str, password: str, usern
     ]
     print(f"Unity launch command: {unityLaunchArguments}")
     process = Popen(unityLaunchArguments)
-    write_logs_from_file(process)
+    write_logs_from_file(process, logsPath)
