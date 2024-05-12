@@ -30,7 +30,7 @@ def clear_logs_file_if_exists(logsPath : str):
         logs.close()
 
 def write_logs_from_file(process : Popen, logsPath : str):
-    clear_logs_file_if_exists()
+    clear_logs_file_if_exists(logsPath)
     while not os.path.exists(logsPath):
         continue
     with io.open(logsPath, mode="+r") as logs:
