@@ -41,6 +41,7 @@ def write_logs_from_file(process : Popen, logsPath : str):
                 continue
             else:
                 print(''.join(written))
+    return process.returncode
 
 def run_unity(buildFolderAbsolutePath: str, unityPath: str, password: str, username: str, logsPath: str, 
               projectPath: str):
@@ -62,4 +63,4 @@ def run_unity(buildFolderAbsolutePath: str, unityPath: str, password: str, usern
     ]
     print(f"Unity launch command: {unityLaunchArguments}")
     process = Popen(unityLaunchArguments)
-    write_logs_from_file(process, logsPath)
+    return write_logs_from_file(process, logsPath)

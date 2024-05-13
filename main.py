@@ -48,11 +48,21 @@ async def send_beginning_message():
     message = f"❗❗❗Начат билд по проекту {projectName}!\nПроизошедшие изменения: {lastCommitMessage}\n"
     await send_message(message)
 
+async def send_unity_error_message(exitCode, logsPath):
+    projectName = cli.get("Project_Name")
+    lastCommitMessage = Repo(".").head.commit.message
+    #Демонстрационная ссылка: https://immgames.ru/Games/Wolf/{projectName}.Внимание! После следующего обновления эта версия игры \"сгорит\" из ссылки.#
+    message = f"""❌ CD для проекта {projectName} завершился с ошибкой: 
+    unity отдал exit code: {exitCode}
+    Билд для коммита с сообщением: {lastCommitMessage}
+    Прилагаются логи сборки"""
+    await send_message_with_file(message, logsPath)
+
 async def send_ending_message():
     projectName = cli.get("Project_Name")
     lastCommitMessage = Repo(".").head.commit.message
     #Демонстрационная ссылка: https://immgames.ru/Games/Wolf/{projectName}.Внимание! После следующего обновления эта версия игры \"сгорит\" из ссылки.#
-    message = f"""❗❗❗Новый билд по проекту {projectName}! 
+    message = f"""✅ Новый билд по проекту {projectName}! 
     Произошедшие изменения: {lastCommitMessage}
     Прилагается архив с билдом:"""
     await send_message_with_file(message, buildArchivePath)
@@ -70,7 +80,7 @@ async def main():
     unityUsername = cli.get("Unity_Username")
     logsPath = get_logs_file_path()
     projectPath = unityplugin.find_unity_project_folder(".")
-    unityplugin.run_unity(
+    exitCode = unityplugin.run_unity(
         buildFolderAbsolutePath = buildFolderAbsolutePath, 
         unityPath = unityPath, 
         password = unityPassword, 
@@ -79,12 +89,15 @@ async def main():
         projectPath = projectPath
         )
     global buildArchivePath
-    buildArchivePath = buildFolderAbsolutePath
-    print(f"Preparing folder {buildFolderAbsolutePath} to compression into {buildArchivePath}")
-    buildArchivePath = compress_folder_contents_into_folder(fromFolder=buildFolderAbsolutePath,
-                                                            toArchive=buildArchivePath)
-    print(f"Compression result: {buildArchivePath}")
-    await send_ending_message()
+    if exitCode == 0:
+        buildArchivePath = buildFolderAbsolutePath
+        print(f"Preparing folder {buildFolderAbsolutePath} to compression into {buildArchivePath}")
+        buildArchivePath = compress_folder_contents_into_folder(fromFolder=buildFolderAbsolutePath,
+                                                                toArchive=buildArchivePath)
+        print(f"Compression result: {buildArchivePath}")
+        await send_ending_message()
+    elif exitCode != 0:
+        await send_unity_error_message(exitCode, logsPath)
 
 def compress_folder_contents_into_folder(fromFolder, toArchive):
     return shutil.make_archive(
