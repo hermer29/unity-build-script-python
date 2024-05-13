@@ -98,6 +98,8 @@ async def main():
         await send_ending_message()
     elif exitCode != 0:
         await send_unity_error_message(exitCode, logsPath)
+        raise Exception("Build error occured. ExitCode: {exitCode}")
+        
 
 def compress_folder_contents_into_folder(fromFolder, toArchive):
     return shutil.make_archive(
