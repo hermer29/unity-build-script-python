@@ -74,7 +74,7 @@ def get_logs_file_path():
 
 async def main():
     global buildFolderAbsolutePath
-    await send_beginning_message()
+    #await send_beginning_message()
     unityPath = cli.get("Unity_Path")
     unityPassword = cli.get("Unity_Password")
     unityUsername = cli.get("Unity_Username")
