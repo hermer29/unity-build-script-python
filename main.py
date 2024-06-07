@@ -12,8 +12,8 @@ def create_build_folder_name():
     from datetime import datetime
     projectName = cli.get("Project_Name")
     time = datetime.now()
-    datePart = f"{time.day}.{time.month}.{time.year}"
-    timePart = f"{time.hour}.{time.month}"
+    datePart = now.strftime("%d.%m.%Y")
+    timePart = now.strftime("%H.%M")
     return f"{datePart}_{projectName}_{timePart}"
 
 buildFolderName = create_build_folder_name()
